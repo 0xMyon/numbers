@@ -2,6 +2,7 @@ package number.natural;
 
 import java.util.Objects;
 
+import number.Printer;
 import number.integer.Negative;
 import number.nothing.NaN;
 
@@ -37,6 +38,10 @@ public interface Zero extends Even {
 	
 	default NaN invert() {
 		return NONE;
+	}
+	
+	default Positive faculty() {
+		return ONE;
 	}
 	
 	default Negative subtract(Positive that) {
@@ -159,7 +164,7 @@ public interface Zero extends Even {
 				return visitor.handle(this);
 			}
 			public String toString() {
-				return "0";
+				return Printer.toString(this);
 			}
 			public int hashCode() {
 				return Objects.hash();

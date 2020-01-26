@@ -2,6 +2,7 @@ package number.nothing;
 
 import java.util.Objects;
 
+import number.Printer;
 import number.integer.Integer;
 import number.integer.Negative;
 import number.natural.Double;
@@ -183,7 +184,7 @@ public class NaN extends RuntimeException implements Zero, Increment, Double, Ne
 	}
 	
 	public String toString() {
-		return "NaN";
+		return Printer.toString(this);
 	}
 	public int hashCode() {
 		return Objects.hash();
@@ -260,6 +261,11 @@ public class NaN extends RuntimeException implements Zero, Increment, Double, Ne
 
 	@Override
 	public NaN DECREMENT() {
+		return this;
+	}
+
+	@Override
+	public NaN faculty() {
 		return this;
 	}
 

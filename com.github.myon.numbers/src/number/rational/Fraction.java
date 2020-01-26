@@ -2,6 +2,7 @@ package number.rational;
 
 import java.util.Objects;
 
+import number.Printer;
 import number.integer.Integer;
 import number.natural.Natural;
 import number.natural.Positive;
@@ -51,7 +52,7 @@ public interface Fraction extends Rational {
 					return Denuminator;
 				}
 				public String toString() {
-					return enuminator()+"/"+denuminator();
+					return Printer.toString(this);
 				}
 				public int hashCode() {
 					return Objects.hash(enuminator(), denuminator());
@@ -71,6 +72,8 @@ public interface Fraction extends Rational {
 	default Rational absolute() {
 		return of(enuminator().absolute(), denuminator());
 	}
+	
+
 	
 	
 }

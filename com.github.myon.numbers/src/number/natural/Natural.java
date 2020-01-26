@@ -28,6 +28,7 @@ public interface Natural extends Integer {
 		return this;
 	}
 	
+	Positive faculty();
 	
 	default Increment power(Zero that) {
 		return ONE;

@@ -1,50 +1,133 @@
 package number;
 
-import number.rational.Rational;
+import number.complex.Complex;
+import number.complex.Imaginary;
 import number.integer.Integer;
+import number.integer.Negative;
+import number.natural.Double;
+import number.natural.Increment;
 import number.natural.Natural;
+import number.natural.Zero;
+import number.nothing.NaN;
+import number.rational.Fraction;
+import number.rational.Rational;
+import number.real.Real;
+import number.real.Series;
 
-public interface Printer {
+public abstract class Printer {
 
-	final static char[] BIN = new char[] {'0', '1'};
-	final static char[] OCT = new char[] {'0', '1', '2', '3', '4', '5', '6', '7'};
-	final static char[] DEC = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-	final static char[] HEX = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+	public static Printer instance = null;
 	
-	final static char[] DEF = DEC;
-	
-	
-	static String print(Rational x, int precision) {
-		return print(x, DEF, precision);
-	}
-	
-	static String print(Rational x, char[] rep, int precision) {
-		String result = print(x.integer(), rep) + '.';
-		Rational r = x.absolute();
-		Natural base = Natural.of(rep.length);
-		for (int i = 0; i < precision; i++) {
-			r = r.rational();
-			r = r.multiply(base);
-			result += rep[r.integer().toInt()];
+	public static String toString(Complex that) {
+		if (instance == null) {
+			instance = new PrinterStructure();
 		}
-		return result;
+		return instance.print(that);
 	}
 	
-	static String print(final Integer i) {
-		return print(i, DEF);
+	
+	public abstract String print(Series that);
+	public abstract String print(Fraction that);
+	public abstract String print(Negative that);
+	public abstract String print(Increment that);
+	public abstract String print(Double that);
+
+	public String print(NaN that) {
+		return "NaN";
 	}
 	
-	static String print(final Integer i, final char[] rep) {
-		if (i.isEqual(Number.ZERO)) return "0";
-		Natural base = Natural.of(rep.length);
-		String result = "";
-		Natural n = i.absolute();
-		while(n.isBigger(Number.ZERO)) {
-			Natural mod = n.modulo(base);		
-			result = rep[mod.toInt()] + result;
-			n = n.DIVIDE(base);
-		}
-		return (i.isSmaler(Number.ZERO) ? "-" : "") + result;
+	public String print(Zero that) {
+		return "0";
+	}
+
+	
+	public String print(Complex that) {
+		return that.accept(new Complex.Visitor<String>() {
+			@Override
+			public String handle(Real that) {
+				return print(that);
+			}
+			@Override
+			public String handle(Imaginary that) {
+				return print(that);
+			}
+			@Override
+			public String handle(NaN that) {
+				return print(that);
+			}
+		});
+	}
+	
+	public String print(Real that) {
+		return that.accept(new Real.Visitor<String>() {
+			@Override
+			public String handle(Series that) {
+				return print(that);
+			}
+			@Override
+			public String handle(Rational that) {
+				return print(that);
+			}
+			@Override
+			public String handle(NaN that) {
+				return print(that);
+			}
+		});
+	}
+	
+	public String print(Rational that) {
+		return that.accept(new Rational.Visitor<String>() {
+			@Override
+			public String handle(Integer that) {
+				return print(that);
+			}
+			@Override
+			public String handle(Fraction that) {
+				return print(that);
+			}
+			@Override
+			public String handle(NaN that) {
+				return print(that);
+			}
+		});
+	}
+	
+	public String print(Integer that) {
+		return that.accept(new Integer.Visitor<String>() {
+			@Override
+			public String handle(Negative that) {
+				return print(that);
+			}
+			@Override
+			public String handle(Natural that) {
+				return print(that);
+			}
+			@Override
+			public String handle(NaN that) {
+				return print(that);
+			}
+		});
+	}
+	
+	public String print(Natural that) {
+		return that.accept(new Natural.Visitor<String>() {
+			@Override
+			public String handle(Double that) {
+				return print(that);
+			}
+			@Override
+			public String handle(Increment that) {
+				return print(that);
+			}
+			@Override
+			public String handle(Zero that) {
+				return print(that);
+			}
+			@Override
+			public String handle(NaN that) {
+				return print(that);
+			}
+		});
 	}
 	
 	

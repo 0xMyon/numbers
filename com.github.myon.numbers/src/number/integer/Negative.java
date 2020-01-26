@@ -2,6 +2,7 @@ package number.integer;
 
 import java.util.Objects;
 
+import number.Printer;
 import number.natural.Double;
 import number.natural.Increment;
 import number.natural.Natural;
@@ -92,7 +93,7 @@ public interface Negative extends Integer {
 				return negative;
 			}
 			public String toString() {
-				return "-"+negative;
+				return Printer.toString(this);
 			}
 			public int hashCode() {
 				return Objects.hash(negative);

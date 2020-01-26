@@ -2,6 +2,7 @@ package number.natural;
 
 import java.util.Objects;
 
+import number.Printer;
 import number.integer.Integer;
 import number.nothing.NaN;
 
@@ -168,7 +169,7 @@ public interface Increment extends Positive {
 				return decrement;
 			}
 			public String toString() {
-				return decrement+"+1";
+				return Printer.toString(this);
 			}
 			public int hashCode() {
 				return Objects.hash(decrement);

@@ -11,6 +11,10 @@ public interface Positive extends Natural {
 	Positive increment();
 	Natural decrement();
 	
+	default Positive faculty() {
+		return decrement().faculty().multiply(this);
+	}
+	
 	default Natural DECREMENT() {
 		return decrement();
 	}

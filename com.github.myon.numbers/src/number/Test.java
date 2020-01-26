@@ -6,13 +6,14 @@ import number.integer.Integer;
 import number.natural.Natural;
 import number.nothing.NaN;
 import number.rational.Rational;
-import number.real.Sequence;
-import number.real.Series;
+import number.real.Real;
 
 class Test {
 
 	@org.junit.jupiter.api.Test
 	void test() {
+		
+		//System.out.println(Math.pow(Math.E, Math.E));
 		
 		assertNotEquals(Integer.of(Long.MAX_VALUE+1), Integer.of(Long.MAX_VALUE).increment());
 		
@@ -27,7 +28,7 @@ class Test {
 		for(long a=-10; a < 20; a++) {
 			
 			assertEquals(a, Integer.of(a).toInt());
-			assertEquals(String.valueOf(a), Printer.print(Integer.of(a)));
+			assertEquals(String.valueOf(a), new PrinterFloat().print(Integer.of(a)));
 			
 			
 			assertEquals(Integer.of(a+1), Integer.of(a).increment());
@@ -115,14 +116,21 @@ class Test {
 		
 		
 		
-		Series e = Series.of(Sequence.exp(Number.ONE));
-		Series ln2 = Series.of(Sequence.ln(Rational.of(999, 1000)));
+		Real e = Number.E;
+		Real ln2 = Number.LN_TWO;
+		//Series ln2 = Series.of(Sequence.ln(Rational.of(999, 1000)));
+		//Series e_e = e.exp();
 		
-		for(int i = 0; i < 10; i++) {
-			System.out.println( Printer.print(e.aprox(), 50) );
-			System.out.println( Printer.print(ln2.aprox(), 50) );
+		for(int i = 0; i < 50; i++) {
+			//System.out.println(e);
+			System.out.println(ln2);
+			
+			//System.out.println(e_e);
+			
 			e.next();
 			ln2.next();
+			//e_e.next();
+			//ln2.next();
 		}
 		
 	}

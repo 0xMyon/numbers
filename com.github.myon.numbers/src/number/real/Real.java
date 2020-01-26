@@ -21,7 +21,7 @@ public interface Real extends Complex {
 	}
 	
 	default Real square() {
-		return power(TWO);
+		return multiply(this);
 	}
 	default Real squareroot() {
 		return power(HALF);
@@ -70,7 +70,6 @@ public interface Real extends Complex {
 	Real multiply(Rational that);
 	Real multiply(Series that);
 	
-	// A*B + A*b + a*B + (a*b -> 0) 
 	default Real multiply(Real that) {
 		return that.accept(new Visitor<Real>() {
 			@Override
@@ -105,14 +104,18 @@ public interface Real extends Complex {
 	Rational aprox();
 	Rational error();
 	
+
 	void next();
-		
+	
+	Series exp();
 	
 	Real ln();
-	Real exp();
+	
 	Real sin();
 	Real cos();
 	
+	
+		
 	/*
 	 * (0)root(x) = 0
 	 * (0)root(0) = NaN

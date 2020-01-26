@@ -2,7 +2,6 @@ package number.rational;
 
 import number.natural.Natural;
 import number.natural.Positive;
-import number.natural.Zero;
 import number.nothing.NaN;
 import number.real.Real;
 import number.real.Sequence;
@@ -43,31 +42,6 @@ public interface Rational extends Real {
 			denuminator().power(that)
 		);
 	}
-	
-	// e^this
-	default Real exp() {
-		return Series.of(Sequence.exp(this));
-	}
-	
-	default Real ln() {
-		if (isBigger(Rational.of(3,2)))
-			return half().ln().add(LN_TWO);
-		else if (!isBigger(ZERO))
-			return NONE;
-		else if (isSmaler(Rational.of(1, 2)))
-			return twice().ln().subtract(LN_TWO);
-		else
-			return Series.of(Sequence.ln(this));
-	}
-	
-	default Real sin() {
-		return Series.of(Sequence.sin(this));
-	}
-	
-	default Real cos() {
-		return Series.of(Sequence.cos(this));
-	}
-	
 		
 	default Rational power(Integer that) {
 		return that.accept(new Integer.Visitor<Rational>() {
@@ -127,6 +101,10 @@ public interface Rational extends Real {
 		return that.multiply(this);
 	}
 	
+	default Sequence multiply(Sequence that) {
+		return that.multiply(this);
+	}
+	
 	default Rational multiply(Rational that) {
 		return Fraction.of(
 				enuminator().multiply(that.enuminator()),
@@ -149,11 +127,13 @@ public interface Rational extends Real {
 	}
 	
 	default Rational error() {
-		return Zero.of();
+		return ZERO;
 	}
+	
 	default Rational aprox() {
 		return this;
 	}
+	
 	default void next() {}
 	
 	default <T> T accept(Real.Visitor<T> visitor) {
@@ -172,7 +152,30 @@ public interface Rational extends Real {
 	static Rational of(long enuminator, long denuminator) {
 		return Integer.of(enuminator).divide(Integer.of(denuminator));
 	}
+	
+	default Series exp() {
+		return Series.of(Sequence.exp(this));
+	}
+	
+	default Real ln() {
+		if (isBigger(THREE_HALFS))
+			return half().ln().add(LN_TWO);
+		else if (!isBigger(ZERO))
+			return NONE;
+		else if (isSmaler(HALF))
+			return twice().ln().subtract(LN_TWO);
+		else
+			return Series.of(Sequence.ln(decrement()));
+	}
 
+	default Series sin() {
+		return Series.of(Sequence.sin(this));
+	}
+	
+	default Series cos() {
+		return Series.of(Sequence.cos(this));
+	}
+	
 	Rational absolute();
 	
 }

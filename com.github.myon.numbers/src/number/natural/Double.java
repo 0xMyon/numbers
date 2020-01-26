@@ -2,6 +2,7 @@ package number.natural;
 
 import java.util.Objects;
 
+import number.Printer;
 import number.integer.Integer;
 import number.nothing.NaN;
 
@@ -180,7 +181,7 @@ public interface Double extends Even, Positive {
 				return half;
 			}
 			public String toString() {
-				return "2*("+half+")";
+				return Printer.toString(this);
 			}
 			public int hashCode() {
 				return Objects.hash(half);
